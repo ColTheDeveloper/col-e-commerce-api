@@ -10,7 +10,7 @@ import verifyToken from "../utils/verifyToken.js"
 //@route POST /api/v1/user/register
 //@access Private/Admin
 export const registerUser=async(req,res,next)=>{
-    
+
     const {fullName, email}=req.body
     try {
         const userExist= await userModel.findOne({email})
@@ -49,7 +49,7 @@ export const loginUser=async(req,res,next)=>{
         if(!passwordIsTheSame) return next(createError(400,"Incorrect email or password!"))
 
         const {password,...user}=foundUser._doc
-        
+
         res.status(200).json({
             successful:true,
             status:200,
@@ -57,7 +57,7 @@ export const loginUser=async(req,res,next)=>{
             token:generateToken(foundUser._id)
         })
     } catch (err) {
-        next(err)       
+        next(err)
     }
 
 }
@@ -68,8 +68,8 @@ export const loginUser=async(req,res,next)=>{
 export const getUserProfile=async(req,res,next)=>{
     try {
         res.json(req.userId)
-        
+
     } catch (error) {
-        
+
     }
 }
