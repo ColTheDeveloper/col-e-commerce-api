@@ -29,9 +29,9 @@ export const createProduct=async(req,res,next)=>{
             status:201,
             data:createdProduct
         })
-        
+
     } catch (err) {
-        next(err)       
+        next(err)
     }
 }
 

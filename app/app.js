@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 dotenv.config()
 import express from "express"
-import connectDB from "../config/db.js"; 
+import connectDB from "../config/db.js";
 import userRoutes from "../routes/userRoutes.js"
 import productRoutes from "../routes/productRoutes.js"
 import { routeNotFound } from "../middleware/errorMiddleware.js";
