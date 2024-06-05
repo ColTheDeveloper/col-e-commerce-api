@@ -1,5 +1,6 @@
 import { createError } from "../middleware/errorMiddleware.js";
 import productModel from "../models/productModel.js";
+import userModel from "../models/userModel.js";
 
 
 //@desc    Create new product
@@ -10,7 +11,13 @@ export const createProduct=async(req,res,next)=>{
     const {name,description,brand,colors,category,sizes,price,totalQuantity}=req.body
     try {
         const productExist=await productModel.findOne({name})
-        if(productExist)return next(createError(400,"Product name already existed!"))
+        if(productExist){
+            res.status(200).json({
+                success:false,
+                message:"Product name already existed!",
+                data:null
+            })
+        }
 
         const createdProduct= await productModel.create({
             name,
@@ -25,9 +32,9 @@ export const createProduct=async(req,res,next)=>{
         })
 
         res.status(201).json({
-            successful:true,
-            status:201,
-            data:createdProduct
+            success:true,
+            message:"Product created successfully",
+            data:null
         })
 
     } catch (err) {
@@ -84,13 +91,15 @@ export const getAllProducts=async(req,res,next)=>{
 
         const endIndex= page*limit
 
-        const totalProduct=productModel.countDocuments()
+        const totalProduct= await productModel.countDocuments()
 
-        productsData.skip(startIndex).limit(limit)
+        //const totalProduct=12
+
+        const products=await productsData.skip(startIndex).limit(limit)
 
         const pagination={}
 
-        if(endIndex>total){
+        if(endIndex>totalProduct){
             pagination.next={
                 page:page + 1,
                 limit
@@ -103,17 +112,20 @@ export const getAllProducts=async(req,res,next)=>{
                 limit
             }
         }
-        const allProducts= await productsData
+        //const products=  allProducts
 
         res.status(200).json({
-            successful:true,
-            results:allProducts.length,
-            total,
-            pagination,
-            status:200,
-            data:allProducts
+            success:true,
+            message:"All product fetch successfully!",
+            data:{
+                products,
+                results:products.length,
+                pagination,
+                totalProduct
+            }
         })
     } catch (err) {
+        console.log(err)
         next(err)
     }
 }
@@ -163,9 +175,9 @@ export const updateAProduct= async(req,res,next)=>{
             new:true
         })
         res.status(200).json({
-            successful:true,
-            status:200,
-            data:product
+            success:true,
+            message:"Product updated successfully!",
+            data:null
         })
     } catch (err) {
         next(err)
@@ -175,17 +187,28 @@ export const updateAProduct= async(req,res,next)=>{
 
 //@desc delete a product
 //@route DELETE /api/v1/product/:id
-//@access  Private/Admin
+//@access  Admin
 
 export const deleteAProduct= async(req,res,next)=>{
     try {
         const productId= req.params.productId
-        await productModel.findByIdAndDelete(productId)
-        res.status(200).json({
-            successful:true,
-            status:200,
-            data:{message:"Product deleted successfully"}
-        })
+        const user= await userModel.findById(req.userId)
+
+        if(user.isAdmin){
+            await productModel.findByIdAndDelete(productId)
+            res.status(200).json({
+                success:true,
+                message:"Product deleted successfully",
+                data:null
+            })
+        }else{
+            res.status(200).json({
+                success:false,
+                message:"Only an admin can delete a product!",
+                data:null
+            })
+        }
+
     } catch (err) {
         next(err)
     }
