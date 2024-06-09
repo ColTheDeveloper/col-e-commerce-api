@@ -17,16 +17,22 @@ const isLoggedin=async(req,res,next)=>{
     // } catch (err) {
     //     next(err)
     // }
-    const token= req.headers.authorization.split(" ")[1]
-    if(!token)return next(createError(403,"No token found, you are not authorized"))
 
-    jwt.verify(token,process.env.JWT_KEY,(err,decoded)=>{
-        if(err)return next(createError(403,"Token expired, Please login again!"))
-
-        req.userId=decoded.id
-
-        next()
-    })
+    try {
+        const token= req.headers.authorization.split(" ")[1]
+        if(!token)return next(createError(403,"No token found, you are not authorized"))
+    
+        jwt.verify(token,process.env.JWT_KEY,(err,decoded)=>{
+            if(err)return next(createError(403,"Token expired, Please login again!"))
+    
+            req.userId=decoded.id
+    
+            next()
+        })
+        
+    } catch (error) {
+        next(error)
+    }
 }
 
 export default isLoggedin

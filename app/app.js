@@ -5,6 +5,8 @@ import connectDB from "../config/db.js";
 import userRoutes from "../routes/userRoutes.js"
 import productRoutes from "../routes/productRoutes.js"
 import categoryRoutes from "../routes/categoryRoutes.js"
+import brandRoutes from "../routes/brandRoutes.js"
+import colorRoutes from "../routes/colorRoutes.js"
 import { routeNotFound } from "../middleware/errorMiddleware.js";
 
 
@@ -18,6 +20,8 @@ app.use(express.json())
 app.use("/api",userRoutes)
 app.use("/api",productRoutes)
 app.use("/api",categoryRoutes)
+app.use("/api",brandRoutes)
+app.use("/api",colorRoutes)
 
 
 app.use(routeNotFound)

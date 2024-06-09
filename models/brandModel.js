@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const categorySchema= new mongoose.Schema({
+const brandSchema= new mongoose.Schema({
     name:{
         type: String,
         required: true,
@@ -24,6 +24,6 @@ const categorySchema= new mongoose.Schema({
     ]
 },{timestamps:true})
 
-const categoryModel= mongoose.model("category", categorySchema)
+const brandModel= mongoose.model("brand", brandSchema)
 
-export default categoryModel
+export default brandModel

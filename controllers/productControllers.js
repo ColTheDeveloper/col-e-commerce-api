@@ -1,4 +1,6 @@
 import { createError } from "../middleware/errorMiddleware.js";
+import brandModel from "../models/brandModel.js";
+import categoryModel from "../models/categoryModel.js";
 import productModel from "../models/productModel.js";
 import userModel from "../models/userModel.js";
 
@@ -19,6 +21,12 @@ export const createProduct=async(req,res,next)=>{
             })
         }
 
+        const foundCategory= await categoryModel.findOne({name:category})
+        if(!foundCategory) return next(createError(400,"Category not found,check for error or create the category!"))
+        
+        const foundBrand= await brandModel.findOne({name:brand})
+        if(!foundBrand) return next(createError(400,"Brand not found,check for error or create the brand!"))
+
         const createdProduct= await productModel.create({
             name,
             description,
@@ -31,10 +39,16 @@ export const createProduct=async(req,res,next)=>{
             brand
         })
 
+        foundCategory.products.push(createdProduct._id)
+        foundCategory.save()
+
+        foundBrand.products.push(createdProduct._id)
+        foundBrand.save()
+
         res.status(201).json({
             success:true,
             message:"Product created successfully",
-            data:null
+            data:createdProduct
         })
 
     } catch (err) {
@@ -174,10 +188,12 @@ export const updateAProduct= async(req,res,next)=>{
         },{
             new:true
         })
+
+        if(!product) return next(createError(400, "Product is not updated!"))
         res.status(200).json({
             success:true,
             message:"Product updated successfully!",
-            data:null
+            data:product
         })
     } catch (err) {
         next(err)

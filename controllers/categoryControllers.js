@@ -10,7 +10,8 @@ export const createCategory=async(req,res,next)=>{
     try {
         const {name}=req.body;
 
-        const existedCategory= await categoryModel.find({name})
+        const existedCategory= await categoryModel.findOne({name})
+
         if(existedCategory) return next(createError(400,"Category already existed!"))
 
         const createdCategory= await categoryModel.create({
@@ -22,7 +23,7 @@ export const createCategory=async(req,res,next)=>{
         res.status(200).json({
             success:true,
             message:"A new category is created successfully!",
-            data:null
+            data:createdCategory
         })
     } catch (err) {
         next(err)
@@ -39,7 +40,8 @@ export const getAllCategories=async (req,res,next)=>{
         const getAllCategories= await categoryModel.find();
 
         res.status(200).json({
-            successful:true,
+            success:true,
+            message:"All category have been fetched successfully!",
             categories:getAllCategories
         })
     } catch (error) {
@@ -55,11 +57,14 @@ export const getAllCategories=async (req,res,next)=>{
 
 export const getACategory= async (req,res,next)=>{
     try {
-        const getACategory= await categoryModel.findById(req.params.id)
+        const category= await categoryModel.findById(req.params.id)
+
+        if(!category) return next(createError(400,"Category not found!"))
 
         res.status(200).json({
-            successful:true,
-            category:getACategory
+            success:true,
+            message:"Category fetched succssfully",
+            category:category
         })
     } catch (error) {
         next(error)
@@ -80,8 +85,11 @@ export const updateACategory= async (req,res,next)=>{
             {new:true}
         )
 
+        if(!updatedCategory) return next(createError(400, "Category is not updated!"))
+
         res.status(200).json({
-            successful:true,
+            success:true,
+            message:"Category has been updated!",
             category:updatedCategory
         })
     } catch (error) {
@@ -99,9 +107,12 @@ export  const deleteACategory= async (req,res,next)=>{
     try {
         await categoryModel.findByIdAndDelete(req.params.id)
 
+
+
         res.status(200).json({
-            successful:true,
-            message:"Category is deleted successfully!"
+            success:true,
+            message:"Category is deleted successfully!",
+            data:null
         })
     } catch (error) {
         next(error)
