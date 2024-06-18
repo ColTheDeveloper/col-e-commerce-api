@@ -93,3 +93,35 @@ export const getUserProfile=async(req,res,next)=>{
 
     }
 }
+
+
+//@desc   Update user shipping address
+//@route  PUT /api/v1/user/update/shipping
+//@access Private
+
+
+export const updateShippingAddress=async(req,res,next)=>{
+    const {firstName,lastName, address, city, postalCode, province, phone}=req.body
+    try {
+        const user= await userModel.findByIdAndUpdate(req.userId,{
+            shippingAddress:{
+                firstName,
+                lastName,
+                address,
+                city,
+                postalCode,
+                province,
+                phone
+            },
+            hasShippingAddress:true,
+        },{new:true})
+
+        res.status(200).json({
+            success:true,
+            message:"Shipping address has been updated successfully!",
+            data:user
+        })
+    } catch (error) {
+        
+    }
+}

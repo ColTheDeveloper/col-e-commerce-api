@@ -126,7 +126,7 @@ export const getAllProducts=async(req,res,next)=>{
                 limit
             }
         }
-        //const products=  allProducts
+
 
         res.status(200).json({
             success:true,
@@ -151,17 +151,17 @@ export const getAllProducts=async(req,res,next)=>{
 
 export const getAProduct= async(req,res,next)=>{
     try {
-        const productId=req.params.productId
-        const product= await productModel.findById(req.params.productId)
+        const product= await productModel.findById(req.params.productId).populate("reviews")
 
         if(!product) return next(createError(404,"Product not found!"))
 
         res.status(200).json({
-            successful:true,
+            success:true,
             status:200,
             data:product
         })
     } catch (err) {
+        console.log(err)
         next(err)
     }
 }
