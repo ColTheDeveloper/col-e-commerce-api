@@ -99,15 +99,16 @@ export const paymentWebhook=async (req, res, next) => {
     const hash = crypto.createHmac('sha512', process.env.PAYSTACK_SECRET_KEY).update(JSON.stringify(req.body)).digest('hex');
 
     if (hash == req.headers['x-paystack-signature']) {
-
-    // Retrieve the request's body
-
-    const event = req.body;
+        console.log("is it in")
+        // Retrieve the request's body
+        
+        const event = req.body;
 
     // Do something with event  
     console.log(event)
 
-    }
+}
+console.log("is it in2")
 
     res.send(200);
 }
