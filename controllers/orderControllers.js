@@ -42,10 +42,12 @@ export const createOrder=async(req,res,next)=>{
             await product.save()
         })
 
-
+        console.log(createdOrder.orderNumber)
         const params = JSON.stringify({
         email: foundUser.email,
-        amount: totalPrice *1000,
+        amount: totalPrice * 10000,
+        reference: createdOrder.orderNumber,
+        currency:"NGN",
         orderItems,
         shippingAddress
         })
@@ -101,12 +103,13 @@ export const createOrder=async(req,res,next)=>{
         // })
 
     } catch (error) {
+        console.log(error)
         next(error)
     }
 }
 
 
-export const paymentWebhook=async (req, res, next) => {
+export const paymentWebhook=(req, res) => {
 //     const hash = crypto.createHmac('sha512', process.env.PAYSTACK_SECRET_KEY).update(JSON.stringify(req.body)).digest('hex');
 
 //     console.log(req.headers['x-paystack-signature'])
@@ -120,7 +123,7 @@ export const paymentWebhook=async (req, res, next) => {
 
 //     // Do something with event  
 //     console.log(event)
-        console.log(req.body.event)
+        console.log(req.body)
 // //}
 //     console.log("is it in2")
 
