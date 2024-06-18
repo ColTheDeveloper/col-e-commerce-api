@@ -10,6 +10,7 @@ import colorRoutes from "../routes/colorRoutes.js"
 import reviewRoutes from "../routes/reviewRoutes.js"
 import orderRoutes from "../routes/orderRoutes.js"
 import { routeNotFound } from "../middleware/errorMiddleware.js";
+import bodyParser from "body-parser";
 
 
 
@@ -18,6 +19,7 @@ connectDB()
 const app=express()
 
 app.use(express.json())
+app.use(bodyParser.json())
 
 app.use("/api",userRoutes)
 app.use("/api",productRoutes)

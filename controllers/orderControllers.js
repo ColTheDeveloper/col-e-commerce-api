@@ -107,22 +107,22 @@ export const createOrder=async(req,res,next)=>{
 
 
 export const paymentWebhook=async (req, res, next) => {
-    const hash = crypto.createHmac('sha512', process.env.PAYSTACK_SECRET_KEY).update(JSON.stringify(req.body)).digest('hex');
+//     const hash = crypto.createHmac('sha512', process.env.PAYSTACK_SECRET_KEY).update(JSON.stringify(req.body)).digest('hex');
 
-    console.log(req.headers['x-paystack-signature'])
-    console.log(hash)
-    console.log(req.body.event)
-    //if (hash == req.headers['x-paystack-signature']) {
-        console.log("is it in")
-        // Retrieve the request's body
+//     console.log(req.headers['x-paystack-signature'])
+//     console.log(hash)
+//     console.log(req.body.event)
+//     //if (hash == req.headers['x-paystack-signature']) {
+//         console.log("is it in")
+//         // Retrieve the request's body
         
-        const event = req.body;
+//         const event = req.body;
 
-    // Do something with event  
-    console.log(event)
-
-//}
-    console.log("is it in2")
+//     // Do something with event  
+//     console.log(event)
+        console.log(req.body.event)
+// //}
+//     console.log("is it in2")
 
     res.sendStatus(200);
 }
