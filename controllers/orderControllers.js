@@ -5,6 +5,7 @@ import userModel from "../models/userModel.js"
 import https from 'https'
 import dotenv from "dotenv"
 import crypto from "crypto"
+import axios from "axios"
 
 dotenv.config()
 
@@ -49,39 +50,49 @@ export const createOrder=async(req,res,next)=>{
         shippingAddress
         })
 
-        const options = {
-        hostname: 'api.paystack.co',
-        port: 443,
-        path: '/transaction/initialize',
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-            'Content-Type': 'application/json'
-        }
+        const config={
+            headers:{
+                Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+                'Content-Type': 'application/json'
+            }
         }
 
-        const paystackReq = https.request(options, paystackRes => {
-        let data = ''
+        const response= await axios.post("https://api.paystack.co/transaction/initialize",params,config)
+        console.log(response.data)
+        // const options = {
+        // hostname: 'api.paystack.co',
+        // port: 443,
+        // path: '/transaction/initialize',
+        // method: 'POST',
+        // headers: {
+        //     Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+        //     'Content-Type': 'application/json'
+        // }
+        // }
 
-        paystackRes.on('data', (chunk) => {
-            data += chunk
-        });
+        // const paystackReq = https.request(options, paystackRes => {
+        // let data = ''
 
-        paystackRes.on('end', () => {
-            res.send(data)
-            console.log(JSON.parse(data))
-        })
-        }).on('error', error => {
-        console.error(error)
-        })
+        // paystackRes.on('data', (chunk) => {
+        //     data += chunk
+        // });
 
-        paystackReq.write(params)
-        paystackReq.end()
+        // paystackRes.on('end', () => {
+        //     res.send(data)
+        //     console.log(JSON.parse(data))
+        // })
+        // }).on('error', error => {
+        // console.error(error)
+        // })
+
+        // paystackReq.write(params)
+        // paystackReq.end()
 
         foundUser.orders.push(createdOrder._id)
         await foundUser.save()
 
-        const {password,...user}=foundUser._doc
+        // const {password,...user}=foundUser._doc
+        res.json(response.data)
 
         // res.json({
         //     success: true,
@@ -101,7 +112,7 @@ export const paymentWebhook=async (req, res, next) => {
     console.log(req.headers['x-paystack-signature'])
     console.log(hash)
     console.log(req.body.event)
-    if (hash == req.headers['x-paystack-signature']) {
+    //if (hash == req.headers['x-paystack-signature']) {
         console.log("is it in")
         // Retrieve the request's body
         
@@ -110,8 +121,8 @@ export const paymentWebhook=async (req, res, next) => {
     // Do something with event  
     console.log(event)
 
-}
-console.log("is it in2")
+//}
+    console.log("is it in2")
 
-    res.send(200);
+    res.sendStatus(200);
 }
