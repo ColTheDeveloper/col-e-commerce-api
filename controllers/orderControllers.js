@@ -100,6 +100,7 @@ export const paymentWebhook=async (req, res, next) => {
 
     console.log(req.headers['x-paystack-signature'])
     console.log(hash)
+    console.log(req.body.event)
     if (hash == req.headers['x-paystack-signature']) {
         console.log("is it in")
         // Retrieve the request's body
