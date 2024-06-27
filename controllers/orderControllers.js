@@ -26,7 +26,7 @@ export const createOrder=async(req,res,next)=>{
             shippingAddress,
             totalPrice,
         })
-        console.log(createdOrder)
+        //console.log(createdOrder)
         
 
         const products= await productModel.find({_id:{$in:orderItems}})
