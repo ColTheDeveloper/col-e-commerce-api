@@ -4,10 +4,13 @@ import productModel from "../models/productModel.js"
 import userModel from "../models/userModel.js"
 import https from 'https'
 import dotenv from "dotenv"
+import stripe from "stripe"
 import crypto from "crypto"
 import axios from "axios"
 
 dotenv.config()
+
+const stripe= new stripe(process.env.STRIPE_KEY)
 
 
 export const createOrder=async(req,res,next)=>{
@@ -43,49 +46,27 @@ export const createOrder=async(req,res,next)=>{
         })
 
         console.log(createdOrder.orderNumber)
-        const params = JSON.stringify({
-        email: foundUser.email,
-        amount: totalPrice * 10000,
-        reference: createdOrder.orderNumber,
-        currency:"NGN",
-        orderItems,
-        shippingAddress
-        })
-
-        const config={
-            headers:{
-                Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-                'Content-Type': 'application/json'
-            }
-        }
-
-        const response= await axios.post("https://api.paystack.co/transaction/initialize",params,config)
-        console.log(response.data)
-        // const options = {
-        // hostname: 'api.paystack.co',
-        // port: 443,
-        // path: '/transaction/initialize',
-        // method: 'POST',
-        // headers: {
-        //     Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-        //     'Content-Type': 'application/json'
-        // }
-        // }
-
-        // const paystackReq = https.request(options, paystackRes => {
-        // let data = ''
-
-        // paystackRes.on('data', (chunk) => {
-        //     data += chunk
-        // });
-
-        // paystackRes.on('end', () => {
-        //     res.send(data)
-        //     console.log(JSON.parse(data))
-        // })
-        // }).on('error', error => {
-        // console.error(error)
-        // })
+        
+        const session = await stripe.checkout.sessions.create({
+            line_items: [
+              {
+                // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                price_data:{
+                    currency:"usd",
+                    product_data:{
+                        name:'Hats',
+                        description:"Best hats"
+                    },
+                    unit_amount:10 * 100
+                },
+                quantity: 2,
+                
+              },
+            ],
+            mode: 'payment',
+            success_url: `http://localhost:3000/success.html`,
+            cancel_url: `http://localhost:3000/cancel.html`,
+        });
 
         // paystackReq.write(params)
         // paystackReq.end()
@@ -94,7 +75,7 @@ export const createOrder=async(req,res,next)=>{
         await foundUser.save()
 
         // const {password,...user}=foundUser._doc
-        res.json(response.data)
+        res.json({url:session.url})
 
         // res.json({
         //     success: true,
