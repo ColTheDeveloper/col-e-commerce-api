@@ -68,7 +68,7 @@ export const loginUser=async(req,res,next)=>{
 
         const {password,...user}=foundUser._doc
 
-        const token=generateToken(foundUser._id)
+        const token=generateToken(foundUser._id,foundUser.isAdmin)
 
         res.status(200).json({
             successful:true,
@@ -129,6 +129,6 @@ export const updateShippingAddress=async(req,res,next)=>{
             data:user
         })
     } catch (error) {
-        
+        next(error)
     }
 }

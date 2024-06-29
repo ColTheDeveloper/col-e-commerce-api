@@ -8,6 +8,7 @@ import categoryRoutes from "../routes/categoryRoutes.js"
 import brandRoutes from "../routes/brandRoutes.js"
 import colorRoutes from "../routes/colorRoutes.js"
 import reviewRoutes from "../routes/reviewRoutes.js"
+import couponRoutes from "../routes/couponRoute.js"
 import orderRoutes from "../routes/orderRoutes.js"
 import { routeNotFound } from "../middleware/errorMiddleware.js";
 import bodyParser from "body-parser";
@@ -82,6 +83,7 @@ app.use("/api",brandRoutes)
 app.use("/api",colorRoutes)
 app.use("/api",reviewRoutes)
 app.use("/api",orderRoutes)
+app.use("/api",couponRoutes)
 
 
 

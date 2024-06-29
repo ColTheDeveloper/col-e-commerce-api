@@ -7,6 +7,7 @@ import dotenv from "dotenv"
 import stripe from "stripe"
 import crypto from "crypto"
 import axios from "axios"
+import couponModel from "../models/couponModel.js"
 
 dotenv.config()
 //console.log(process.env.STRIPE_KEY)
@@ -17,7 +18,13 @@ const Stripe= new stripe(process.env.STRIPE_KEY)
 
 export const createOrder=async(req,res,next)=>{
     const {orderItems, shippingAddress,totalPrice}=req.body
+    const {coupon}= req.query
     try {
+        const foundCoupon= await couponModel.findOne({code:coupon.toUpperCase()})
+        if(foundCoupon.isExpired) return next(createError(400,"Coupon has expired!"))
+        
+        const discount= foundCoupon?.discount/100
+
         const foundUser=await userModel.findById(req.userId)
         if(!foundUser)return next(createError(400,"User not found!"))
 
@@ -29,7 +36,7 @@ export const createOrder=async(req,res,next)=>{
             user: foundUser._id,
             orderItems,
             shippingAddress,
-            totalPrice,
+            totalPrice: foundCoupon? totalPrice - totalPrice * discount : totalPrice,
         })
         //console.log(createdOrder)
 
