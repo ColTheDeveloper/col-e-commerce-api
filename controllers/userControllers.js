@@ -87,10 +87,17 @@ export const loginUser=async(req,res,next)=>{
 
 export const getUserProfile=async(req,res,next)=>{
     try {
-        res.json(req.userId)
+        const foundUser= await userModel.findById(req.userId).populate("orders")
+        if(!foundUser) return next(createError(404,"User not found!"))
+
+        res.status(200).json({
+            success:true,
+            message:"User data fetched successfully!",
+            data:foundUser
+        })
 
     } catch (error) {
-
+        next(error)
     }
 }
 

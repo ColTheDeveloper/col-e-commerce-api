@@ -24,10 +24,9 @@ const orderSchema=new mongoose.Schema({
         required:true,
         default: randomText + randomNumber
     },
-    isPaymentMade:{
-        type:Boolean,
-        required:true,
-        default:false
+    paymentStatus:{
+        type:String,
+        default:"Not Paid"
     },
     paymentMethod:{
         type:String,
