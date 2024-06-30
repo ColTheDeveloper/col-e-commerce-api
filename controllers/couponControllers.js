@@ -15,7 +15,7 @@ export const createCoupon= async(req,res,next)=>{
 
         if(isNaN(discount)) return next(createError(400,"Discount must be a number!"))
 
-        if(!req.isAdmin) return next(createError(400,"Can't access this route!"))
+        if(!req.isAdmin) return next(createError(400,"Action forbidden!"))
         const createdCoupon= await couponModel.create ({
             code:code.toUpperCase(),
             startDate,
@@ -60,6 +60,7 @@ export const getAllCoupon=async(req,res,next)=>{
 export const getACoupon=async(req,res,next)=>{
     try {
         const foundCoupon= await couponModel.findOne({code:req.params.code.toUpperCase()})
+        if(!foundCoupon) return next(createError(404,"Coupon not found!"))
         res.status(200).json({
             success:true,
             message:"Coupon fetch successfully!",
@@ -78,7 +79,11 @@ export const getACoupon=async(req,res,next)=>{
 export const updateACoupon= async(req,res,next)=>{
     const {code,startDate,endDate,discount}=req.body
     try {
-        if(!req.isAdmin) return next(createError(400,"Can't access this route!"))
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+
+        const couponExisted= await couponModel.findOne({code:code.toUpperCase()})
+        if(couponExisted) return next(createError(404,"Coupon code already existed!"))
+
         const editedCoupon= await couponModel.findByIdAndUpdate(req.params.id,{
             code:code.toUpperCase(),
             startDate,
@@ -105,7 +110,7 @@ export const updateACoupon= async(req,res,next)=>{
 
 export const deleteACoupon=async(req,res,next)=>{
     try {
-        if(!req.isAdmin) return next(createError(400,"Can't access this route!"))
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         
         await couponModel.findByIdAndDelete(req.params.id)
 

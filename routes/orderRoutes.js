@@ -1,5 +1,5 @@
 import express from "express"
-import { createOrder, getAllOrders, getAnOrder, updateOrderStatus } from "../controllers/orderControllers.js"
+import { createOrder, getAllOrders, getAnOrder,  getOrderStat,  updateOrderStatus } from "../controllers/orderControllers.js"
 //import isLoggedin from "../middleware/isLoggedInMiddleware.js"
 import authCheck from "../middleware/authMiddleware.js"
 
@@ -11,6 +11,7 @@ router.post("/v1/order",authCheck,createOrder)
 router.get("/v1/orders",authCheck,getAllOrders)
 router.get("/v1/order/:id",authCheck,getAnOrder)
 router.put("/v1/order/update/:id", authCheck,updateOrderStatus )
+router.get("/v1/orders/stat",authCheck,getOrderStat)
 
 
 export default router

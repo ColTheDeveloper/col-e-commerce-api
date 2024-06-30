@@ -20,6 +20,7 @@ export const createOrder=async(req,res,next)=>{
     const {orderItems, shippingAddress,totalPrice}=req.body
     const {coupon}= req.query
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const foundCoupon= await couponModel.findOne({code:coupon.toUpperCase()})
         if(foundCoupon.isExpired) return next(createError(400,"Coupon has expired!"))
         
@@ -139,6 +140,7 @@ export const getAnOrder= async(req,res)=>{
 export const updateOrderStatus= async(req,res)=>{
     const {status}= req.body
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const updatedOrder= await orderModel.findByIdAndUpdate(req.params.id,{
             orderStatus:status
         },{
@@ -155,3 +157,40 @@ export const updateOrderStatus= async(req,res)=>{
     }
 }
 
+
+//@desc     get sum of sales
+//@route    GET /api/v1/orders/sales/sum
+//@access   Admin
+
+export const getOrderStat=async(req,res,next)=>{
+    try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+        const orderStat= await orderModel.aggregate([
+            {
+                $group:{
+                    _id:null,
+                    totalSales:{
+                        $sum:"$totalPrice"
+                    },
+                    minimumSale:{
+                        $min: "$totalPrice"
+                    },
+                    maximumSale:{
+                        $max: "$totalPrice"
+                    },
+                    averageSale:{
+                        $avg:"$totalPrice"
+                    }
+                }
+            }
+        ])
+
+        res.status(200).json({
+            success:true,
+            message:"Total stat fetched successfully!",
+            data:orderStat
+        })
+    } catch (error) {
+        next(error)
+    }
+}
