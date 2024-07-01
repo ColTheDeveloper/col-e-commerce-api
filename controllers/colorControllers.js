@@ -7,12 +7,13 @@ export const createAColor=async(req,res,next)=>{
     try {
         const {name}=req.body
 
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+
         const foundColor= await colorModel.findOne({name})
         if(foundColor) next(createError(400,"Color already existed!"))
 
         const createdColor= await colorModel.create({
-            name,
-            user:req.userId
+            name
         })
 
         res.status(201).json({
@@ -48,7 +49,7 @@ export const getAColor= async (req,res,next)=>{
     try {
         const color= await colorModel.findById(req.params.id)
 
-        if(!color) return next(createError(400,"Color not found!"))
+        if(!color) return next(createError(404,"Color not found!"))
 
         res.status(200).json({
             success:true,
@@ -63,11 +64,13 @@ export const getAColor= async (req,res,next)=>{
 
 //@desc     Update a color
 //@route    PUT /api/v1/color/:id
-//@access   Private/Admin
+//@access   Admin
 
 export const updateAColor= async (req,res,next)=>{
     const {name}= req.body
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+
         const updatedColor= await colorModel.findByIdAndUpdate(
             req.params.id,
             {name},
@@ -90,10 +93,11 @@ export const updateAColor= async (req,res,next)=>{
 
 //@desc      Delete a color
 //@route     DELETE /api/v1/color/:id
-//@access    Private/Admin
+//@access    Admin
 
 export  const deleteAColor= async (req,res,next)=>{
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         await colorModel.findByIdAndDelete(req.params.id)
 
         res.status(200).json({

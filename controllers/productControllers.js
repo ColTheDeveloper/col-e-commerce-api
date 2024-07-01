@@ -10,11 +10,13 @@ import userModel from "../models/userModel.js";
 //@access  Private/Admin
 
 export const createProduct=async(req,res,next)=>{
-    const {name,description,brand,colors,category,sizes,price,totalQuantity}=req.body
+    const {name,description,brand,images,colors,category,sizes,price,totalQuantity}=req.body
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+
         const productExist=await productModel.findOne({name})
         if(productExist){
-            res.status(200).json({
+            res.status(400).json({
                 success:false,
                 message:"Product name already existed!",
                 data:null
@@ -22,10 +24,10 @@ export const createProduct=async(req,res,next)=>{
         }
 
         const foundCategory= await categoryModel.findOne({name:category})
-        if(!foundCategory) return next(createError(400,"Category not found,check for error or create the category!"))
+        if(!foundCategory) return next(createError(404,"Category not found,check for error or create the category!"))
         
         const foundBrand= await brandModel.findOne({name:brand})
-        if(!foundBrand) return next(createError(400,"Brand not found,check for error or create the brand!"))
+        if(!foundBrand) return next(createError(404,"Brand not found,check for error or create the brand!"))
 
         const createdProduct= await productModel.create({
             name,
@@ -35,6 +37,7 @@ export const createProduct=async(req,res,next)=>{
             sizes,
             user:req.userId,
             price,
+            images,
             totalQuantity,
             brand
         })
@@ -174,6 +177,7 @@ export const getAProduct= async(req,res,next)=>{
 export const updateAProduct= async(req,res,next)=>{
     const productId=req.params.productId
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const {name,description,category,sizes,colors,user,price,totalQuantity,brand}=req.body
         const product=await productModel.findByIdAndUpdate(productId,{
             name,
@@ -207,23 +211,15 @@ export const updateAProduct= async(req,res,next)=>{
 
 export const deleteAProduct= async(req,res,next)=>{
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const productId= req.params.productId
-        const user= await userModel.findById(req.userId)
 
-        if(user.isAdmin){
-            await productModel.findByIdAndDelete(productId)
-            res.status(200).json({
-                success:true,
-                message:"Product deleted successfully",
-                data:null
-            })
-        }else{
-            res.status(200).json({
-                success:false,
-                message:"Only an admin can delete a product!",
-                data:null
-            })
-        }
+        await productModel.findByIdAndDelete(productId)
+        res.status(200).json({
+            success:true,
+            message:"Product deleted successfully",
+            data:null
+        })
 
     } catch (err) {
         next(err)

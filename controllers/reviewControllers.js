@@ -32,8 +32,6 @@ export const createAReview=async(req,res,next)=>{
             user: req.userId,
         })
 
-
-
         foundProduct.reviews.push(createdReview._id)
         foundProduct.save()
 

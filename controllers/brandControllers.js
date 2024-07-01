@@ -7,6 +7,8 @@ export const createABrand=async(req,res,next)=>{
     try {
         const {name}=req.body
 
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+
         const foundBrand= await brandModel.findOne({name})
         if(foundBrand) next(createError(400,"Brand already existed!"))
 
@@ -48,7 +50,7 @@ export const getABrand= async (req,res,next)=>{
     try {
         const brand= await brandModel.findById(req.params.id)
 
-        if(!brand) return next(createError(400,"Category not found!"))
+        if(!brand) return next(createError(404,"Brand not found!"))
 
         res.status(200).json({
             success:true,
@@ -63,16 +65,19 @@ export const getABrand= async (req,res,next)=>{
 
 //@desc     Update a brand
 //@route    PUT /api/v1/brand/:id
-//@access   Private/Admin
+//@access   Admin
 
 export const updateABrand= async (req,res,next)=>{
     const {name}= req.body
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const updatedBrand= await brandModel.findByIdAndUpdate(
             req.params.id,
             {name},
             {new:true}
         )
+
+        if(!updatedBrand) return next(createError(400,"Bad Request"))
 
         res.status(200).json({
             success:true,
@@ -88,10 +93,11 @@ export const updateABrand= async (req,res,next)=>{
 
 //@desc      Delete a brand
 //@route     DELETE /api/v1/brand/:id
-//@access    Private/Admin
+//@access    Admin
 
 export  const deleteABrand= async (req,res,next)=>{
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         await brandModel.findByIdAndDelete(req.params.id)
 
         res.status(200).json({

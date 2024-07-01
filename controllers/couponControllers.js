@@ -15,7 +15,7 @@ export const createCoupon= async(req,res,next)=>{
 
         if(isNaN(discount)) return next(createError(400,"Discount must be a number!"))
 
-        if(!req.isAdmin) return next(createError(400,"Action forbidden!"))
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const createdCoupon= await couponModel.create ({
             code:code.toUpperCase(),
             startDate,
@@ -81,8 +81,8 @@ export const updateACoupon= async(req,res,next)=>{
     try {
         if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
 
-        const couponExisted= await couponModel.findOne({code:code.toUpperCase()})
-        if(couponExisted) return next(createError(404,"Coupon code already existed!"))
+        //const couponExisted= await couponModel.findOne({code:code.toUpperCase()})
+        //if(couponExisted) return next(createError(400,"Coupon code already existed!"))
 
         const editedCoupon= await couponModel.findByIdAndUpdate(req.params.id,{
             code:code.toUpperCase(),

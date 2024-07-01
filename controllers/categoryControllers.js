@@ -8,7 +8,8 @@ import categoryModel from "../models/categoryModel.js";
 
 export const createCategory=async(req,res,next)=>{
     try {
-        const {name}=req.body;
+        const {name,image}=req.body;
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
 
         const existedCategory= await categoryModel.findOne({name})
 
@@ -16,7 +17,7 @@ export const createCategory=async(req,res,next)=>{
 
         const createdCategory= await categoryModel.create({
             name,
-            user: req.userId,
+            image
 
         })
 
@@ -42,7 +43,7 @@ export const getAllCategories=async (req,res,next)=>{
         res.status(200).json({
             success:true,
             message:"All category have been fetched successfully!",
-            categories:getAllCategories
+            data:getAllCategories
         })
     } catch (error) {
         next(error)
@@ -59,12 +60,12 @@ export const getACategory= async (req,res,next)=>{
     try {
         const category= await categoryModel.findById(req.params.id)
 
-        if(!category) return next(createError(400,"Category not found!"))
+        if(!category) return next(createError(404,"Category not found!"))
 
         res.status(200).json({
             success:true,
             message:"Category fetched succssfully",
-            category:category
+            data:category
         })
     } catch (error) {
         next(error)
@@ -79,18 +80,19 @@ export const getACategory= async (req,res,next)=>{
 export const updateACategory= async (req,res,next)=>{
     const {name}= req.body
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const updatedCategory= await categoryModel.findByIdAndUpdate(
             req.params.id,
             {name},
             {new:true}
         )
 
-        if(!updatedCategory) return next(createError(400, "Category is not updated!"))
+        if(!updatedCategory) return next(createError(400, "Bad Request!"))
 
         res.status(200).json({
             success:true,
             message:"Category has been updated!",
-            category:updatedCategory
+            data:updatedCategory
         })
     } catch (error) {
         next(error)
@@ -105,9 +107,9 @@ export const updateACategory= async (req,res,next)=>{
 
 export  const deleteACategory= async (req,res,next)=>{
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+
         await categoryModel.findByIdAndDelete(req.params.id)
-
-
 
         res.status(200).json({
             success:true,

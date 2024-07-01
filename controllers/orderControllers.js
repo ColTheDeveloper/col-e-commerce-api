@@ -21,6 +21,7 @@ export const createOrder=async(req,res,next)=>{
     const {coupon}= req.query
     try {
         if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
+
         const foundCoupon= await couponModel.findOne({code:coupon.toUpperCase()})
         if(foundCoupon.isExpired) return next(createError(400,"Coupon has expired!"))
         
@@ -83,7 +84,7 @@ export const createOrder=async(req,res,next)=>{
         foundUser.orders.push(createdOrder._id)
         await foundUser.save()
 
-        res.json({url:session.url})
+        res.status(200).json({url:session.url})
 
 
     } catch (error) {

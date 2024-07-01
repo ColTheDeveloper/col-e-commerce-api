@@ -5,12 +5,7 @@ const colorSchema= new mongoose.Schema({
         type: String,
         required: true,
         lowercase: true,
-    },
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true
-    },
+    }
 },{timestamps:true})
 
 const colorModel= mongoose.model("color", colorSchema)
