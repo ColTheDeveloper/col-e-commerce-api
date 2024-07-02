@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 dotenv.config()
 import express from "express"
+import YAML from "yamljs";
 import connectDB from "../config/db.js";
 import userRoutes from "../routes/userRoutes.js"
 import productRoutes from "../routes/productRoutes.js"
@@ -15,6 +16,7 @@ import bodyParser from "body-parser";
 import cors from "cors"
 import Stripe from "stripe";
 import orderModel from "../models/orderModel.js";
+import swaggerSetup from "../config/swagger.js";
 
 
 
@@ -88,7 +90,7 @@ app.use("/api",couponRoutes)
 
 
 
-
+swaggerSetup(app)
 
 
 

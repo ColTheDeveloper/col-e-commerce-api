@@ -1,0 +1,15 @@
+openapi: 3.1.0
+info:
+  title: COL's E-commerce API
+  description: API documentation for the e-commerce application
+  version: 1.0.0
+servers:
+  -url: http://localhost:2500
+  description: Development Server
+paths:
+  /api/v1/user/register:
+    post:
+      summary: Register A User
+      response:
+        201:
+          description:
