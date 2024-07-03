@@ -27,11 +27,6 @@ const productSchema= new mongoose.Schema({
         emun:["S","M","L","XL","XXL"],
         required:true
     },
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true
-    },
     images:[
         {
             type:String,

@@ -52,8 +52,8 @@ export const loginUser=async(req,res,next)=>{
         const token=generateToken(foundUser._id,foundUser.isAdmin)
 
         res.status(200).json({
-            successful:true,
-            status:200,
+            success:true,
+            message:"User successfully login!",
             data:{user,token}
         })
     } catch (err) {
@@ -69,12 +69,14 @@ export const loginUser=async(req,res,next)=>{
 export const getUserProfile=async(req,res,next)=>{
     try {
         const foundUser= await userModel.findById(req.userId).populate("orders")
-        if(!foundUser) return next(createError(404,"User not found!"))
+        if(!foundUser) return next(createError(401,"Unauthorized!"))
+
+        const {password, ...user}=foundUser._doc
 
         res.status(200).json({
             success:true,
             message:"User data fetched successfully!",
-            data:foundUser
+            data:user
         })
 
     } catch (error) {
@@ -89,7 +91,7 @@ export const getUserProfile=async(req,res,next)=>{
 
 
 export const updateShippingAddress=async(req,res,next)=>{
-    const {firstName,lastName, address, city, postalCode, province, phone}=req.body
+    const {firstName,lastName, address, city, postalCode, state,country, phoneNumber}=req.body
     try {
         const user= await userModel.findByIdAndUpdate(req.userId,{
             shippingAddress:{
@@ -98,8 +100,9 @@ export const updateShippingAddress=async(req,res,next)=>{
                 address,
                 city,
                 postalCode,
-                province,
-                phone
+                state,
+                country,
+                phoneNumber,
             },
             hasShippingAddress:true,
         },{new:true})

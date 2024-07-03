@@ -5,11 +5,12 @@ import jwt from "jsonwebtoken"
 
 const authCheck=async(req,res,next)=>{
     try {
+        if(!req.headers.authorization)return next(createError(401,"Unauthorized!"))
         const token= req.headers.authorization.split(" ")[1]
-        if(!token)return next(createError(403,"No token found, you are not authorized"))
+        if(!token)return next(createError(401,"Unauthorized!"))
     
         jwt.verify(token,process.env.JWT_KEY,(err,decoded)=>{
-            if(err)return next(createError(403,"Token expired, Please login again!"))
+            if(err)return next(createError(401,"Unauthorized!"))
                 console.log(decoded.isAdmin)
             req.userId=decoded.id
             req.isAdmin=decoded.isAdmin

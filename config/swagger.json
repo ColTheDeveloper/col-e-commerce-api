@@ -11,11 +11,20 @@
             "description":"Development server"
         }
     ],
+    "components":{
+        "securitySchemes":{
+            "BearerAuth":{
+                "type":"http",
+                "scheme":"bearer",
+                "bearerFormat":"JWT"
+            }
+        }
+    },
     "paths":{
         "/api/v1/user/register":{
             "post":{
                 "tags":[
-                    "API V1","Users"
+                    "Users"
                 ],
                 "summary":"Register A User",
                 "description":"Register a new user.\n\n This  endpoint  accepts the following parameters in JSON Request  body:.\n\n- `fullName`: the full name of the user. \n- `email`: the email of the user. \n- `password`: The password of the user.",
@@ -77,10 +86,10 @@
         "/api/v1/user/login":{
             "post":{
                 "tags":[
-                    "API V1","Users"
+                    "Users"
                 ],
                 "summary":"Login A User",
-                "description":"Login a new user.\n\n This  endpoint  accepts the following parameters in JSON Request  body:.\n\n- `email`: The registered email address of the user. \n `password`: The registered password of the user",
+                "description":"Login a new user.\n\n This  endpoint  accepts the following parameters in JSON Request  body: \n\n- `email`: The registered email address of the user. \n\n- `password`: The registered password of the user",
                 "requestBody":{
                     "required":true,
                     "content":{
@@ -105,11 +114,41 @@
                         "content":{
                             "application/json":{
                                 "schema":{
-                                    "example":{
-                                        "success":true,
-                                        "message":"User successfully register!",
-                                        "data":[]
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"User successfully login!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "user":{
+                                                    "type":"object",
+                                                    "example":{
+                                                        "shippingAddress": "object",
+                                                        "_id": "string",
+                                                        "fullName": "string",
+                                                        "email": "string",
+                                                        "orders": [],
+                                                        "hasShippingAddress": false,
+                                                        "isAdmin": false,
+                                                        "createdAt": "string",
+                                                        "updatedAt": "string",
+                                                        "__v": 0
+                                                    }
+                                                },
+                                                "token":{
+                                                    "type":"string"
+                                                }
+                                            }
+                                        }
                                     }
+
 
                                 }
                             }
@@ -136,22 +175,47 @@
         "/api/v1/user/profile":{
             "get":{
                 "tags":[
-                    "API V1","Users"
+                    "Users"
                 ],
                 "summary":"Get User Profile",
                 "description":"Get User Profile.\n\n This endpoint returns the authenticated user's data.\n\n The endpoint does not require any parameters, as it uses the authenticated user's data.",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
                 "responses":{
                     "200":{
                         "description":"Successful Response",
                         "content":{
                             "application/json":{
                                 "schema":{
-                                    "example":{
-                                        "success":true,
-                                        "message":"User successfully register!",
-                                        "data":[]
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"User data fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "example":{
+                                                "shippingAddress": {},
+                                                "_id": "string",
+                                                "fullName": "string",
+                                                "email": "string",
+                                                "orders": [],
+                                                "hasShippingAddress": false,
+                                                "isAdmin": false,
+                                                "createdAt": "string",
+                                                "updatedAt": "string",
+                                                "__v": 0
+                                            }
+                                        }
                                     }
-
                                 }
                             }
                         }
@@ -167,6 +231,303 @@
                                         "data":null
                                     }
 
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/update/shipping":{
+            "put":{
+                "tags":[
+                    "Users"
+                ],
+                "summary":"Update The User Shipping Address",
+                "description":"Update The User Shipping Address \n\n To Update The User Shipping Address, This  endpoint  accepts the following parameters in JSON Request  body: \n\n- `firstName`: The user first name. \n\n- `lastName`: The user last name. \n\n- `address`: The addrerss the user want to ship to. \n\n- `city`: The city the user is shipping to. \n\n- `postalCode`: The postalCode the user is shipping to. \n\n- `state`: The state the user is shipping to. \n\n- `country`: The country the user is shipping to. \n\n- `phoneNumber`: The phone number of the user.",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "firstName":{
+                                        "type":"string"
+                                    },
+                                    "lastName":{
+                                        "type":"string"
+                                    },
+                                    "address":{
+                                        "type":"string"
+                                    },
+                                    "city":{
+                                        "type":"string"
+                                    },
+                                    "postalCode":{
+                                        "type":"string"
+                                    },
+                                    "state":{
+                                        "type":"string"
+                                    },
+                                    "country":{
+                                        "type":"string"
+                                    },
+                                    "phoneNumber":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"User data fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "example":{
+                                                "shippingAddress":{
+                                                    "firstName": "string",
+                                                    "lastName": "string",
+                                                    "address": "string",
+                                                    "city": "string",
+                                                    "postalCode": "string",
+                                                    "state": "string",
+                                                    "country": "string",
+                                                    "phoneNumber": "string"
+                                                },
+                                                "_id": "string",
+                                                "fullName": "string",
+                                                "email": "string",
+                                                "orders": [],
+                                                "hasShippingAddress": false,
+                                                "isAdmin": false,
+                                                "createdAt": "string",
+                                                "updatedAt": "string",
+                                                "__v": 0
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/product":{
+            "post":{
+                "tags":[
+                    "Admin", "Products"
+                ],
+                "summary":"Create A Product",
+                "description":"Create A Product \n\n To create a product, This  endpoint  accepts the following parameters in JSON Request  body: \n\n- `name`: The name of the product. \n\n- `description`: The description of the product. \n\n- `brand`: The product brand. The product creation won't be successful if the brand is not among the brand already created. \n\n- `images`: The array of the product image url. This is optional. \n\n- `colors`: The arrays of color of the available product. \n\n- `category`: The category the product belong to. The product creation won't be successful if the category is not among the category already created. \n\n- `sizes`: The array of sizes available for the product. \n\n- `price`: The price of the product. \n\n- `totalQuantity`: The total available quantity of the product. \n\n NOTE: Only an admin can create a product, so if you are getting a status code of 403 then it means you aren't an admin",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "name":{
+                                        "type":"string"
+                                    },
+                                    "description":{
+                                        "type":"string"
+                                    },
+                                    "brand":{
+                                        "type":"string"
+                                    },
+                                    "images":{
+                                        "type":"array"
+                                    },
+                                    "colors":{
+                                        "type":"array"
+                                    },
+                                    "sizes":{
+                                        "type":"array"
+                                    },
+                                    "category":{
+                                        "type":"string"
+                                    },
+                                    "price":{
+                                        "type":"integer"
+                                    },
+                                    "totalQuantity":{
+                                        "type":"integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"User data fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "example":{
+                                                "shippingAddress":{
+                                                    "firstName": "string",
+                                                    "lastName": "string",
+                                                    "address": "string",
+                                                    "city": "string",
+                                                    "postalCode": "string",
+                                                    "state": "string",
+                                                    "country": "string",
+                                                    "phoneNumber": "string"
+                                                },
+                                                "_id": "string",
+                                                "fullName": "string",
+                                                "email": "string",
+                                                "orders": [],
+                                                "hasShippingAddress": false,
+                                                "isAdmin": false,
+                                                "createdAt": "string",
+                                                "updatedAt": "string",
+                                                "__v": 0
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
                                 }
                             }
                         }

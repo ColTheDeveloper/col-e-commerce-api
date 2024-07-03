@@ -24,10 +24,10 @@ export const createProduct=async(req,res,next)=>{
         }
 
         const foundCategory= await categoryModel.findOne({name:category})
-        if(!foundCategory) return next(createError(404,"Category not found,check for error or create the category!"))
+        if(!foundCategory) return next(createError(400,"Category not found,check for error or create the category!"))
         
         const foundBrand= await brandModel.findOne({name:brand})
-        if(!foundBrand) return next(createError(404,"Brand not found,check for error or create the brand!"))
+        if(!foundBrand) return next(createError(400,"Brand not found,check for error or create the brand!"))
 
         const createdProduct= await productModel.create({
             name,
@@ -35,7 +35,6 @@ export const createProduct=async(req,res,next)=>{
             colors,
             category,
             sizes,
-            user:req.userId,
             price,
             images,
             totalQuantity,
