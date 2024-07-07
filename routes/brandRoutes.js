@@ -11,9 +11,9 @@ router.get("/v1/brands",getAllBrand)
 
 router.get("/v1/brand/:id",getABrand)
 
-router.put("/v1/brand/:id",authCheck,updateABrand)
+router.put("/v1/brand/update/:id",authCheck,updateABrand)
 
-router.delete("/v1/brand/:id",authCheck,deleteABrand)
+router.delete("/v1/brand/delete/:id",authCheck,deleteABrand)
 
 
 

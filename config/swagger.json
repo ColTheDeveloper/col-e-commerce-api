@@ -534,6 +534,2189 @@
                     }
                 }
             }
+        },
+        "/api/v1/products":{
+            "get":{
+                "tags":[
+                    "Products","Admin"
+                ],
+                "summary":"Get All Product",
+                "description":"Get All Product \n\n Fetch all product according to the queries",
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"All product fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id": "string",
+                                                "name": "string",
+                                                "description": "string",
+                                                "brand": "string",
+                                                "colors":"array",
+                                                "category": "string",
+                                                "sizes":"array",
+                                                "images": "array",
+                                                "reviews": "array",
+                                                "price":"integer" ,
+                                                "totalQuantity": "integer",
+                                                "totalSold": "integer",
+                                                "createdAt": "string",
+                                                "updatedAt": "string",
+                                                "__v": "integer",
+                                                "remainingQty": "integer",
+                                                "totalReviews": "integer",
+                                                "averageRating": "integer",
+                                                "id": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/product/{productId}":{
+            "get":{
+                "tags":[
+                    "Products"
+                ],
+                "description":"Get A Product. \n\n Fetch a product with it product ID",
+                "summary":"Get A Product",
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"productId",
+                        "required":true,
+                        "schema":{
+                            "type":"string"
+                        },
+                        "description":"The product ID"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"All product fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id": {
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "description":{
+                                                    "type":"string"
+                                                },
+                                                "brand":{
+                                                    "type":"string"
+                                                },
+                                                "colors":{
+                                                    "type":"array"
+                                                },
+                                                "category":{
+                                                    "type":"string"
+                                                },
+                                                "sizes":{
+                                                    "type":"array"
+                                                },
+                                                "images":{
+                                                    "type":"array"
+                                                },
+                                                "reviews":{
+                                                    "type":"array"
+                                                },
+                                                "price":{
+                                                    "type":"integer"
+                                                },
+                                                "totalQuantity":{
+                                                    "type":"integer"
+                                                },
+                                                "totalSold":{
+                                                    "type":"integer"
+                                                },
+                                                "createdAt": {
+                                                    "type":"string"
+                                                },
+                                                "updatedAt": {
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                },
+                                                "remainingQty":{
+                                                    "type":"integer"
+                                                },
+                                                "totalReviews":{
+                                                    "type":"integer"
+                                                },
+                                                "averageRating": {
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/product/update/{productId}":{
+            "put":{
+                "tags":["Admin","Products"],
+                "summary":"Update A Product",
+                "description":"Update A Product. \n\n To update the product, this endpoint accepts this following parameters is JSON format. \n\n- `name`",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"User data fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "example":{
+                                                "shippingAddress":{
+                                                    "firstName": "string",
+                                                    "lastName": "string",
+                                                    "address": "string",
+                                                    "city": "string",
+                                                    "postalCode": "string",
+                                                    "state": "string",
+                                                    "country": "string",
+                                                    "phoneNumber": "string"
+                                                },
+                                                "_id": "string",
+                                                "fullName": "string",
+                                                "email": "string",
+                                                "orders": [],
+                                                "hasShippingAddress": false,
+                                                "isAdmin": false,
+                                                "createdAt": "string",
+                                                "updatedAt": "string",
+                                                "__v": 0
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/product/delete/{productId}":{
+            "delete":{
+                "tags":["Products","Admin"],
+                "summary":"Delete A Product",
+                "description":"Delete A Product",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Product deleted successfully!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/category":{
+            "post":{
+                "tags":["Category","Admin"],
+                "summary":"Create A Category",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "description":"Create A Category. \n\n To create a category, this endpoint accept the following parameters in JSON request body: \n\n-`name`: The category name. \n\n-`image`: The URL of the category image",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "name":{
+                                        "type":"string"
+                                    },
+                                    "image":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"A new category is created successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "image":{
+                                                    "type":"string"
+                                                },
+                                                "products":{
+                                                    "type":"array"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/categories":{
+            "get":{
+                "tags":["Category"],
+                "summary":"Get All Categories",
+                "description":"Get All Categories. \n\n Fetch all the categories",
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"All category have been fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"array",
+                                            "example":[
+                                                {
+                                                    "_id":"string",
+                                                    "name":"string",
+                                                    "image":"string",
+                                                    "products":[],
+                                                    "createdAt":"string",
+                                                    "updatedAt":"string",
+                                                    "__v":0
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/category/{categoryId}":{
+            "get":{
+                "tags":["Category"],
+                "summary":"Get A Category",
+                "description":"Get A Category. \n\n Fetch a category with it ID",
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"categoryId",
+                        "required":true,
+                        "description":"Category ID",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Category fetched succssfully"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "image":{
+                                                    "type":"string"
+                                                },
+                                                "products":{
+                                                    "type":"array"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/category/update/{categoryId}":{
+            "put":{
+                "tags":["Admin","Category"],
+                "summary":"Update A Category",
+                "description":"Update A Category. \n\n To Update the category, the endpoint takes two parameters in JSON request body: \n\n- `name`:The new name of the category \n\n- `image`: The image representing the category. \n\n The two parameter are not required, only the one you want to update.",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"categoryId",
+                        "description":"Category ID",
+                        "schema":{
+                            "type":"string"
+                        },
+                        "required":true
+                    }
+                ],
+                "requestBody":{
+                    "required":false,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Category has been updated!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "image":{
+                                                    "type":"string"
+                                                },
+                                                "products":{
+                                                    "type":"array"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/category/delete/{categoryId}":{
+            "delete":{
+                "tags":["Admin","Category"],
+                "summary":"Delete A Category",
+                "description":"Delete A Category",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"categoryId",
+                        "description":"Category ID",
+                        "schema":{
+                            "type":"string"
+                        },
+                        "required":true
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Category is deleted successfully!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/brand":{
+            "post":{
+                "tags":["Brand","Admin"],
+                "summary":"Create A Brand",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "description":"Create A Brand. \n\n To create a brand, this endpoint accept the following parameters in JSON request body: \n\n-`name`: The brand name. \n\n-`image`: The URL of the brand image",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "name":{
+                                        "type":"string"
+                                    },
+                                    "image":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Brand successfully created!!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "image":{
+                                                    "type":"string"
+                                                },
+                                                "products":{
+                                                    "type":"array"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/brands":{
+            "get":{
+                "tags":["Brand"],
+                "summary":"Get All Brands",
+                "description":"Get All Brands. \n\n Fetch all the brands",
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"All brand have been fetched successfully!"
+                                        },
+                                        "data":{
+                                            "type":"array",
+                                            "example":[
+                                                {
+                                                    "_id":"string",
+                                                    "name":"string",
+                                                    "image":"string",
+                                                    "products":[],
+                                                    "createdAt":"string",
+                                                    "updatedAt":"string",
+                                                    "__v":0
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/brand/{brandId}":{
+            "get":{
+                "tags":["Brand"],
+                "summary":"Get A Brand",
+                "description":"Get A Brand. \n\n Fetch a brand with it ID",
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"brandId",
+                        "required":true,
+                        "description":"Brand ID",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Brand fetched succssfully"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "image":{
+                                                    "type":"string"
+                                                },
+                                                "products":{
+                                                    "type":"array"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/brand/update/{brandId}":{
+            "put":{
+                "tags":["Admin","Brand"],
+                "summary":"Update A Brand",
+                "description":"Update A Brand. \n\n To Update the brand, the endpoint takes two parameters in JSON request body: \n\n- `name`:The new name of the brand \n\n- `image`: The image representing the brand. \n\n The two parameter are not required, only the one you want to update.",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"brandId",
+                        "description":"Brand ID",
+                        "schema":{
+                            "type":"string"
+                        },
+                        "required":true
+                    }
+                ],
+                "requestBody":{
+                    "required":false,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Brand has been updated!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "image":{
+                                                    "type":"string"
+                                                },
+                                                "products":{
+                                                    "type":"array"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/brand/delete/{brandId}":{
+            "delete":{
+                "tags":["Admin","Brand"],
+                "summary":"Delete A Brand",
+                "description":"Delete A Brand",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"brandId",
+                        "description":"Brand ID",
+                        "schema":{
+                            "type":"string"
+                        },
+                        "required":true
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Brand is deleted successfully!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/coupon":{
+            "post":{
+                "tags":["Coupon","Admin"],
+                "summary":"Create A Coupon",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "description":"Create A Coupon. \n\n To create a coupon, this endpoint accept the following parameters in JSON request body: \n\n- `code`: The code of the coupon. \n\n- `startDate`: The starting Date of coupon. it must not be less than the current date. The format should be YYYY/MM/DD \n\n- `endDate`: The ending date of the coupon. It must not be less than the current date. The format should be YYYY/MM/DD \n\n- `discount`: The discount the coupon provide",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "code":{
+                                        "type":"string"
+                                    },
+                                    "startDate":{
+                                        "type":"string"
+                                    },
+                                    "endDate":{
+                                        "type":"string"
+                                    },
+                                    "discount":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Coupon successfully created!!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "code":{
+                                                    "type":"string"
+                                                },
+                                                "discount":{
+                                                    "type":"string"
+                                                },
+                                                "startDate":{
+                                                    "type":"string"
+                                                },
+                                                "endDate":{
+                                                    "type":"string"
+                                                },
+                                                "daysLeft":{
+                                                    "type":"string"
+                                                },
+                                                "isExpired":{
+                                                    "type":"boolean"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/coupons":{
+            "get":{
+                "tags":["Coupon"],
+                "summary":"Get All Coupon",
+                "description":"Get All Coupon. \n\n Fetch all the coupon",
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Coupon Fetched Successfully"
+                                        },
+                                        "data":{
+                                            "type":"array",
+                                            "example":[
+                                                {
+                                                    "_id":"string",
+                                                    "code":"string",
+                                                    "startDate":"string",
+                                                    "endDate":"string",
+                                                    "daysLeft":"string",
+                                                    "isExpired":false,
+                                                    "createdAt":"string",
+                                                    "updatedAt":"string",
+                                                    "__v":0
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/coupon/{couponCode}":{
+            "get":{
+                "tags":["Coupon"],
+                "summary":"Get A Coupon",
+                "description":"Get A Coupon. \n\n Fetch a coupon with the coupon code",
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"couponCode",
+                        "required":true,
+                        "description":"Coupon Code",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Coupon Fetched Successfully"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "code":{
+                                                    "type":"string"
+                                                },
+                                                "startDate":{
+                                                    "type":"string"
+                                                },
+                                                "endDate":{
+                                                    "type":"string"
+                                                },
+                                                "isExpired":{
+                                                    "type":"boolean"
+                                                },
+                                                "daysLeft":{
+                                                    "type":"string"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/coupon/update/{couponId}":{
+            "put":{
+                "tags":["Admin","Coupon"],
+                "summary":"Update A Coupon",
+                "description":"Update A Coupon. \n\n To Update the coupon, this are the parameters that can be updated through the endpoint in JSON request body: \n\n- `code`: The code of the coupon. \n\n- `startDate`: The starting Date of coupon. it must not be less than the current date. The format should be YYYY/MM/DD \n\n- `endDate`: The ending date of the coupon. It must not be less than the current date. The format should be YYYY/MM/DD \n\n- `discount`: The discount the coupon provide",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"couponId",
+                        "description":"Coupon ID",
+                        "schema":{
+                            "type":"string"
+                        },
+                        "required":true
+                    }
+                ],
+                "requestBody":{
+                    "required":false,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Coupon has been updated!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "code":{
+                                                    "type":"string"
+                                                },
+                                                "startDate":{
+                                                    "type":"string"
+                                                },
+                                                "endDate":{
+                                                    "type":"string"
+                                                },
+                                                "isExpired":{
+                                                    "type":"boolean"
+                                                },
+                                                "daysLeft":{
+                                                    "type":"string"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/coupon/delete/{couponId}":{
+            "delete":{
+                "tags":["Admin","Coupon"],
+                "summary":"Delete A Coupon",
+                "description":"Delete A Coupon",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"couponId",
+                        "description":"Coupon ID",
+                        "schema":{
+                            "type":"string"
+                        },
+                        "required":true
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Coupon is deleted successfully!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Forbidden Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/review/{productId}":{
+            "post":{
+                "tags":["Review"],
+                "summary":"Create A Product Review",
+                "description":"Create a review for a product.",
+                "security":[
+                    {
+                        "BearerAuth":{}
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"productId",
+                        "description":"The product ID",
+                        "required":true,
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "rating":{
+                                        "type":"integer"
+                                    },
+                                    "message":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"boolean",
+                                            "example":"Review created successfully"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "example":{
+                                                "user": "string",
+                                                "product": "string",
+                                                "message": "string",
+                                                "rating": 0,
+                                                "_id": "string",
+                                                "createdAt": "string",
+                                                "updatedAt": "string",
+                                                "__v": 0
+                                              }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

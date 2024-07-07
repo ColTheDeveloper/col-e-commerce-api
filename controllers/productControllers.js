@@ -159,7 +159,7 @@ export const getAProduct= async(req,res,next)=>{
 
         res.status(200).json({
             success:true,
-            status:200,
+            message:"Product fetched successfully!",
             data:product
         })
     } catch (err) {

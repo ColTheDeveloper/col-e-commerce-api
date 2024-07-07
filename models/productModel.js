@@ -64,7 +64,7 @@ productSchema.virtual("remainingQty").get(function(){
 
 productSchema.virtual("totalReviews").get(function(){
     const product= this
-    console.log(product)
+    //console.log(product)
     return product.reviews.length
 })
 

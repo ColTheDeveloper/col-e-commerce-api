@@ -7,8 +7,8 @@ const router=express.Router();
 router.post("/v1/category",authCheck,createCategory)
 router.get("/v1/categories",getAllCategories)
 router.get("/v1/category/:id",getACategory)
-router.put("/v1/category/:id",authCheck,updateACategory)
-router.delete("/v1/category/:id",authCheck,deleteACategory)
+router.put("/v1/category/update/:id",authCheck,updateACategory)
+router.delete("/v1/category/delete/:id",authCheck,deleteACategory)
 
 
 export default router;

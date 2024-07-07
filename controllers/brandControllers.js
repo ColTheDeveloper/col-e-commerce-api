@@ -5,7 +5,7 @@ import brandModel from "../models/brandModel.js"
 
 export const createABrand=async(req,res,next)=>{
     try {
-        const {name}=req.body
+        const {name,image}=req.body
 
         if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
 
@@ -14,7 +14,7 @@ export const createABrand=async(req,res,next)=>{
 
         const createdBrand= await brandModel.create({
             name,
-            user:req.userId
+            image
         })
 
         res.status(201).json({

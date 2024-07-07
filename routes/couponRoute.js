@@ -8,8 +8,8 @@ const router= express.Router()
 router.post("/v1/coupon", authCheck ,createCoupon)
 router.get("/v1/coupons",getAllCoupon)
 router.get("/v1/coupon/:code",getACoupon)
-router.put("/v1/coupon/:id",authCheck, updateACoupon)
-router.delete("/v1/coupon/:id",authCheck, deleteACoupon)
+router.put("/v1/coupon/update/:id",authCheck, updateACoupon)
+router.delete("/v1/coupon/delete/:id",authCheck, deleteACoupon)
 
 
 
