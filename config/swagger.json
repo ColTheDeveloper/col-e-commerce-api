@@ -2645,7 +2645,7 @@
                                                 "createdAt": "string",
                                                 "updatedAt": "string",
                                                 "__v": 0
-                                              }
+                                            }
                                         }
                                     }
                                 }
@@ -2711,6 +2711,31 @@
                                             "example":null
                                         }
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/order":{
+            "post":{
+                "summary":"Create An Order",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "tags":["Order"],
+                "description":"",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    
                                 }
                             }
                         }
