@@ -2735,7 +2735,665 @@
                             "schema":{
                                 "type":"object",
                                 "properties":{
-                                    
+                                    "orderItems":{
+                                        "type":"array",
+                                        "example":[{
+                                            "_id":"string",
+                                            "name":"string",
+                                            "totalQuantity":0,
+                                            "buyingQuantity":0,
+                                            "price":0
+                                        }]
+                                    },
+                                    "totalPrice":{
+                                        "type":"integer",
+                                        "example":0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"URL for stripe payment generated!"
+                                        },
+                                        "data":{
+                                            "type":"string",
+                                            "example":"Stripe Checkout URL"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/orders":{
+            "get":{
+                "tags":["Order", "Admin"],
+                "summary":"Get All Order",
+                "description":"Get All Order. \n\n Fetch all the orders for admin",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Order fetch successfully!"
+                                        },
+                                        "data":{
+                                            "type":"array",
+                                            "example":[
+                                                {
+                                                    "_id": "string",
+                                                    "user": "string",
+                                                    "orderItems": [],
+                                                    "shippingAddress": {},
+                                                    "orderNumber": "string",
+                                                    "paymentStatus": "string",
+                                                    "paymentMethod": "string",
+                                                    "totalPrice": 0,
+                                                    "currency": "string",
+                                                    "orderStatus": "string",
+                                                    "createdAt": "string",
+                                                    "updatedAt": "string",
+                                                    "__v": 0
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/order/{orderId}":{
+            "get":{
+                "tags":["Order","Admin"],
+                "summary":"Get An Order",
+                "description":"Get An Order. \n\n Fetch an order with it ID",
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"orderId",
+                        "required":true,
+                        "description":"Order ID",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Order fetched successfully"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "user":{
+                                                    "type":"string"
+                                                },
+                                                "shippingAddress":{
+                                                    "type":"object"
+                                                },
+                                                "orderItems":{
+                                                    "type":"array"
+                                                },
+                                                "paymentStatus":{
+                                                    "type":"string"
+                                                },
+                                                "paymentMethod":{
+                                                    "type":"string"
+                                                },
+                                                "totalPrice":{
+                                                    "type":"integer"
+                                                },
+                                                "orderStatus":{
+                                                    "type":"string"
+                                                },
+                                                "currency":{
+                                                    "type":"string"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "orderNumber":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/order/update/{orderId}":{
+            "put":{
+                "tags":["Admin","Order"],
+                "summary":"Update An Order",
+                "description":"Update An Order. \n\n To Update an order, the endpoint takes a parameters in JSON request body: \n\n- `orderStatus`: This is the status of the order. it can only be `pending`, which is the default. `processing` , `shipped` or `delivered`",
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"orderId",
+                        "description":"Order ID",
+                        "schema":{
+                            "type":"string"
+                        },
+                        "required":true
+                    }
+                ],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "orderStatus":"string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Order updated successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "user":{
+                                                    "type":"string"
+                                                },
+                                                "shippingAddress":{
+                                                    "type":"object"
+                                                },
+                                                "orderItems":{
+                                                    "type":"array"
+                                                },
+                                                "paymentStatus":{
+                                                    "type":"string"
+                                                },
+                                                "paymentMethod":{
+                                                    "type":"string"
+                                                },
+                                                "totalPrice":{
+                                                    "type":"integer"
+                                                },
+                                                "orderStatus":{
+                                                    "type":"string"
+                                                },
+                                                "currency":{
+                                                    "type":"string"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "orderNumber":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/order/stat":{
+            "get":{
+                "tags":["Admin","Order"],
+                "security":[
+                    {
+                        "BearerAuth":[]
+                    }
+                ],
+                "summary":"Get Order Stats",
+                "description":"Fetch the stat of the orders",
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Order updated successfully!"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "_id":{
+                                                    "type":"string"
+                                                },
+                                                "name":{
+                                                    "type":"string"
+                                                },
+                                                "image":{
+                                                    "type":"string"
+                                                },
+                                                "products":{
+                                                    "type":"array"
+                                                },
+                                                "createdAt":{
+                                                    "type":"string"
+                                                },
+                                                "updatedAt":{
+                                                    "type":"string"
+                                                },
+                                                "__v":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Error Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "example":{
+                                        "success":false,
+                                        "message":"string",
+                                        "data":null
+                                    }
+    
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Unauthorized Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Unauthorized!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403":{
+                        "description":"Restricted Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":false
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Action Forbidden!"
+                                        },
+                                        "data":{
+                                            "type":"null",
+                                            "example":null
+                                        }
+                                    }
                                 }
                             }
                         }

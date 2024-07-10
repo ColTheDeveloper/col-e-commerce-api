@@ -17,13 +17,15 @@ const Stripe= new stripe(process.env.STRIPE_KEY)
 
 
 export const createOrder=async(req,res,next)=>{
-    const {orderItems, shippingAddress,totalPrice}=req.body
+    const {orderItems, totalPrice}=req.body
     const {coupon}= req.query
     try {
         if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
 
-        const foundCoupon= await couponModel.findOne({code:coupon.toUpperCase()})
-        if(foundCoupon.isExpired) return next(createError(400,"Coupon has expired!"))
+        const foundCoupon= await couponModel.findOne({code:coupon?.toUpperCase()})
+        if(foundCoupon){
+            if(foundCoupon.isExpired) return next(createError(400,"Coupon has expired!"))
+        }
         
         const discount= foundCoupon?.discount/100
 
@@ -37,7 +39,7 @@ export const createOrder=async(req,res,next)=>{
         const createdOrder=await orderModel.create({
             user: foundUser._id,
             orderItems,
-            shippingAddress,
+            shippingAddress:foundUser.shippingAddress,
             totalPrice: foundCoupon? totalPrice - totalPrice * discount : totalPrice,
         })
         //console.log(createdOrder)
@@ -84,7 +86,11 @@ export const createOrder=async(req,res,next)=>{
         foundUser.orders.push(createdOrder._id)
         await foundUser.save()
 
-        res.status(200).json({url:session.url})
+        res.status(200).json({
+            success: true,
+            message:"URL for stripe payment generated!",
+            data:session.url
+        })
 
 
     } catch (error) {
@@ -99,8 +105,9 @@ export const createOrder=async(req,res,next)=>{
 //@route    GET /api/v1/orders
 //@access   private
 
-export const getAllOrders=async(req,res)=>{
+export const getAllOrders=async(req,res,next)=>{
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const allOrders= await orderModel.find()
         res.status(200).json({
             success:true,
@@ -117,9 +124,10 @@ export const getAllOrders=async(req,res)=>{
 //@route    GET /api/v1/order/:id
 //@access   private/Admin
 
-export const getAnOrder= async(req,res)=>{
+export const getAnOrder= async(req,res,next)=>{
     const id=req.params.id
     try {
+        if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const foundOrder= await orderModel.findById(id)
         if(!foundOrder) return next(createError(400,"Order not found!"))
 
@@ -138,12 +146,12 @@ export const getAnOrder= async(req,res)=>{
 //@route    PUT /api/v1/order/update/:id
 //@access   Admin
 
-export const updateOrderStatus= async(req,res)=>{
-    const {status}= req.body
+export const updateOrderStatus= async(req,res,next)=>{
+    const {orderStatus}= req.body
     try {
         if(!req.isAdmin) return next(createError(403,"Action forbidden!"))
         const updatedOrder= await orderModel.findByIdAndUpdate(req.params.id,{
-            orderStatus:status
+            orderStatus
         },{
             new: true
         })
