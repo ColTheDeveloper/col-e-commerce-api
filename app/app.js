@@ -78,6 +78,10 @@ app.use(cors({
     methods:["GET","POST","PUT","DELETE"]
 }))
 
+
+app.get("/",(req,res)=>{
+  res.send("server is running!")
+})
 app.use("/api",userRoutes)
 app.use("/api",productRoutes)
 app.use("/api",categoryRoutes)
