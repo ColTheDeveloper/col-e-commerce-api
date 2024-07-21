@@ -9,6 +9,10 @@
         {
             "url":"http://localhost:2500",
             "description":"Development server"
+        },
+        {
+            "url":"https://col-e-commerce-api.vercel.app",
+            "description":"Production server"
         }
     ],
     "components":{
